@@ -21,8 +21,6 @@ class DetailNewsActivity : BaseActivityBinding<ActivityDetailNewsBinding>() {
     private lateinit var urlNews: String
     private lateinit var sourceNews: String
 
-    private var activityRef: WeakReference<DetailNewsActivity>? = null
-
     override val bindingInflater: (LayoutInflater) -> ActivityDetailNewsBinding
         get() = { ActivityDetailNewsBinding.inflate(layoutInflater) }
 
@@ -52,21 +50,14 @@ class DetailNewsActivity : BaseActivityBinding<ActivityDetailNewsBinding>() {
         binding.webview.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 super.onProgressChanged(view, newProgress)
-                activityRef?.get()?.let { activity ->
-                    if (newProgress == 100) {
-                        lifecycleScope.launch(Dispatchers.IO) {
-                            activity.binding.progressCircular.visibility = View.GONE
-                        }
+                if (newProgress == 100) {
+                    if (!this@DetailNewsActivity.isDestroyed) {
+                        binding.progressCircular.visibility = View.GONE
                     }
                 }
             }
         }
         binding.webview.loadUrl(urlNews)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        activityRef?.clear()
     }
 
 }
