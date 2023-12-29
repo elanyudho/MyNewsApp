@@ -31,6 +31,7 @@ A mobile native application to display news using the [News API](https://newsapi
 - **MVVM Pattern:** Architectural pattern used to separate concerns and improve maintainability.
 - **Clean Architecture:** Software design philosophy that separates the concerns of the business logic, application, and infrastructure layers.
 - **Hilt:** Dependency injection library for Android, making it easy to manage app components.
+- **Retrofit:** A type-safe HTTP client for Android to handle the process of making API requests.
 - **Room Database:** SQLite object mapping library for local data storage.
 - **Coroutines:** Kotlin's native asynchronous programming paradigm for managing background tasks.
 - **Modularization:** Project is structured with modularization to enhance maintainability and scalability.
