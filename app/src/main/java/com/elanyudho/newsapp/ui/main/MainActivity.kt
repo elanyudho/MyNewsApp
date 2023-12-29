@@ -16,8 +16,10 @@ import com.elanyudho.core.util.pagination.RecyclerViewPaginator
 import com.elanyudho.newsapp.R
 import com.elanyudho.newsapp.databinding.ActivityMainBinding
 import com.elanyudho.newsapp.ui.articles.ArticlesActivity
+import com.elanyudho.newsapp.ui.articles.ArticlesActivity.Companion.SOURCE_ID
 import com.elanyudho.newsapp.ui.main.adapter.SourceAdapter
 import com.elanyudho.newsapp.ui.search.SearchActivity
+import com.elanyudho.newsapp.ui.search.SearchActivity.Companion.SEARCH_QUERY
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -53,15 +55,15 @@ class MainActivity : BaseActivityBinding<ActivityMainBinding>(),
         setTabItems()
     }
 
-    override fun onChanged(state: MainViewModel.MainUiState?) {
-        when (state) {
+    override fun onChanged(value: MainViewModel.MainUiState) {
+        when (value) {
             is MainViewModel.MainUiState.SourcesLoaded -> {
                 stopLoading()
-                if (state.data.isEmpty() && paginator?.isFirstGet == true) {
+                if (value.data.isEmpty() && paginator?.isFirstGet == true) {
                     showEmptyData()
                 }else {
                     hideEmptyData()
-                    sourceAdapter.appendList(state.data)
+                    sourceAdapter.appendList(value.data)
                 }
             }
             is MainViewModel.MainUiState.InitialLoading -> {
@@ -72,10 +74,8 @@ class MainActivity : BaseActivityBinding<ActivityMainBinding>(),
             }
             is MainViewModel.MainUiState.FailedLoaded -> {
                 stopLoading()
-                handleFailure(state.failure)
+                handleFailure(value.failure)
             }
-
-            else -> {}
         }
     }
 
@@ -105,7 +105,7 @@ class MainActivity : BaseActivityBinding<ActivityMainBinding>(),
                     hideKeyboard(svNews)
                     if (query.toString().isNotEmpty()) {
                         val intent = Intent(this@MainActivity, SearchActivity::class.java)
-                        intent.putExtra("searchQuery", query!!)
+                        intent.putExtra(SEARCH_QUERY, query!!)
                         startActivity(intent)
                         binding.svNews.setQuery("")
                     }
@@ -131,7 +131,7 @@ class MainActivity : BaseActivityBinding<ActivityMainBinding>(),
 
             sourceAdapter.setOnClickData {
                 val intent = Intent(this@MainActivity, ArticlesActivity::class.java)
-                intent.putExtra("sourceId", it.id)
+                intent.putExtra(SOURCE_ID, it.id)
                 startActivity(intent)
             }
         }
@@ -175,10 +175,8 @@ class MainActivity : BaseActivityBinding<ActivityMainBinding>(),
             categories.forEach {
                 tabList.add(it)
             }
-            // Add tabs
-            addTitleOnlyTabs(tabList)
 
-            // Set margins
+            addTitleOnlyTabs(tabList)
             setTabsMargin(6.dp, 6.dp, 8.dp, 6.dp)
         }
     }
@@ -232,8 +230,8 @@ class MainActivity : BaseActivityBinding<ActivityMainBinding>(),
                 dialog.dismiss()
             }
 
-        val dialog = builder.create()
-        dialog.show()
+        val dialogFilter = builder.create()
+        dialogFilter.show()
     }
 
     companion object {

@@ -13,6 +13,8 @@ import com.elanyudho.newsapp.R
 import com.elanyudho.newsapp.databinding.ActivityArticlesBinding
 import com.elanyudho.newsapp.ui.articles.adapter.ArticlesAdapter
 import com.elanyudho.newsapp.ui.detail.DetailNewsActivity
+import com.elanyudho.newsapp.ui.detail.DetailNewsActivity.Companion.SOURCE_NEWS
+import com.elanyudho.newsapp.ui.detail.DetailNewsActivity.Companion.URL_NEWS
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -40,15 +42,15 @@ class ArticlesActivity : BaseActivityBinding<ActivityArticlesBinding>(), Observe
 
     }
 
-    override fun onChanged(state: ArticlesViewModel.ArticlesUiState?) {
-        when(state) {
+    override fun onChanged(value: ArticlesViewModel.ArticlesUiState) {
+        when(value) {
             is ArticlesViewModel.ArticlesUiState.ArticlesLoaded -> {
                 stopLoading()
-                if (state.data.isEmpty() && paginator?.isFirstGet == true) {
+                if (value.data.isEmpty() && paginator?.isFirstGet == true) {
                     showEmptyData()
                 }else {
                     hideEmptyData()
-                    articlesAdapter.appendList(state.data)
+                    articlesAdapter.appendList(value.data)
                 }
             }
             is ArticlesViewModel.ArticlesUiState.InitialLoading -> {
@@ -59,14 +61,13 @@ class ArticlesActivity : BaseActivityBinding<ActivityArticlesBinding>(), Observe
             }
             is ArticlesViewModel.ArticlesUiState.FailedLoaded -> {
                 stopLoading()
-                handleFailure(state.failure)
+                handleFailure(value.failure)
             }
-            else -> {}
         }
     }
 
     private fun getDataIntent() {
-        sourceId = intent.getStringExtra("sourceId") ?: ""
+        sourceId = intent.getStringExtra(SOURCE_ID) ?: ""
     }
 
     private fun initViewModel() {
@@ -88,8 +89,8 @@ class ArticlesActivity : BaseActivityBinding<ActivityArticlesBinding>(), Observe
 
             articlesAdapter.setOnClickData {
                 val intent = Intent(this@ArticlesActivity, DetailNewsActivity::class.java)
-                intent.putExtra("sourceNews", it.source)
-                intent.putExtra("urlNews", it.url)
+                intent.putExtra(SOURCE_NEWS, it.source)
+                intent.putExtra(URL_NEWS, it.url)
                 startActivity(intent)
             }
         }
@@ -127,5 +128,9 @@ class ArticlesActivity : BaseActivityBinding<ActivityArticlesBinding>(), Observe
 
     private fun handleFailure(failure: Failure) {
         Toast.makeText(this, failure.throwable.message, Toast.LENGTH_SHORT).show()
+    }
+
+    companion object {
+        const val SOURCE_ID = "source_id"
     }
 }

@@ -17,7 +17,10 @@ import com.elanyudho.core.util.pagination.RecyclerViewPaginator
 import com.elanyudho.newsapp.R
 import com.elanyudho.newsapp.databinding.ActivitySearchBinding
 import com.elanyudho.newsapp.ui.articles.ArticlesActivity
+import com.elanyudho.newsapp.ui.articles.ArticlesActivity.Companion.SOURCE_ID
 import com.elanyudho.newsapp.ui.detail.DetailNewsActivity
+import com.elanyudho.newsapp.ui.detail.DetailNewsActivity.Companion.SOURCE_NEWS
+import com.elanyudho.newsapp.ui.detail.DetailNewsActivity.Companion.URL_NEWS
 import com.elanyudho.newsapp.ui.main.MainActivity.Companion.SEARCH_ARTICLE
 import com.elanyudho.newsapp.ui.main.MainActivity.Companion.SEARCH_SOURCE
 import com.elanyudho.newsapp.ui.search.adapter.SearchAdapter
@@ -51,27 +54,27 @@ class SearchActivity : BaseActivityBinding<ActivitySearchBinding>(),
         setPagination()
     }
 
-    override fun onChanged(state: SearchViewModel.SearchUiState?) {
+    override fun onChanged(value: SearchViewModel.SearchUiState) {
         setView()
 
-        when (state) {
+        when (value) {
             is SearchViewModel.SearchUiState.SourcesLoaded -> {
                 stopLoading()
-                if (state.data.isEmpty() && paginator?.isFirstGet == true) {
+                if (value.data.isEmpty() && paginator?.isFirstGet == true) {
                     showEmptyData()
                 }else {
                     hideEmptyData()
-                    searchAdapter.appendList(state.data)
+                    searchAdapter.appendList(value.data)
                 }
             }
 
             is SearchViewModel.SearchUiState.ArticleLoaded -> {
                 stopLoading()
-                if (state.data.isEmpty() && paginator?.isFirstGet == true) {
+                if (value.data.isEmpty() && paginator?.isFirstGet == true) {
                     showEmptyData()
                 }else {
                     hideEmptyData()
-                    searchAdapter.appendList(state.data)
+                    searchAdapter.appendList(value.data)
                 }
             }
 
@@ -85,17 +88,13 @@ class SearchActivity : BaseActivityBinding<ActivitySearchBinding>(),
 
             is SearchViewModel.SearchUiState.FailedLoaded -> {
                 stopLoading()
-                handleFailure(state.failure)
-            }
-
-            else -> {
-
+                handleFailure(value.failure)
             }
         }
     }
 
     private fun getIntentData() {
-        searchQuery = intent.getStringExtra("searchQuery") ?: ""
+        searchQuery = intent.getStringExtra(SEARCH_QUERY) ?: ""
     }
 
     private fun initViewModel() {
@@ -160,13 +159,13 @@ class SearchActivity : BaseActivityBinding<ActivitySearchBinding>(),
                 if (filter == SEARCH_SOURCE) {
                     val data = it as Source
                     val intent = Intent(this@SearchActivity, ArticlesActivity::class.java)
-                    intent.putExtra("sourceId", data.id)
+                    intent.putExtra(SOURCE_ID, data.id)
                     startActivity(intent)
                 } else {
                     val data = it as Article
                     val intent = Intent(this@SearchActivity, DetailNewsActivity::class.java)
-                    intent.putExtra("sourceNews", it.source)
-                    intent.putExtra("urlNews", data.url)
+                    intent.putExtra(SOURCE_NEWS, it.source)
+                    intent.putExtra(URL_NEWS, data.url)
                     startActivity(intent)
                 }
             }
@@ -237,6 +236,10 @@ class SearchActivity : BaseActivityBinding<ActivitySearchBinding>(),
 
         val dialog = builder.create()
         dialog.show()
+    }
+
+    companion object {
+        const val SEARCH_QUERY = "search_query"
     }
 
 }

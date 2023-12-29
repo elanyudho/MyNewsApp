@@ -31,8 +31,8 @@ class DetailNewsActivity : BaseActivityBinding<ActivityDetailNewsBinding>() {
     }
 
     private fun getDataIntent() {
-        urlNews = intent.getStringExtra("urlNews") ?: ""
-        sourceNews = intent.getStringExtra("sourceNews") ?: ""
+        urlNews = intent.getStringExtra(URL_NEWS) ?: ""
+        sourceNews = intent.getStringExtra(SOURCE_NEWS) ?: ""
     }
 
     private fun setHeader() {
@@ -58,6 +58,11 @@ class DetailNewsActivity : BaseActivityBinding<ActivityDetailNewsBinding>() {
             }
         }
         binding.webview.loadUrl(urlNews)
+    }
+
+    companion object {
+        const val URL_NEWS = "url_news"
+        const val SOURCE_NEWS = "source_news"
     }
 
 }
