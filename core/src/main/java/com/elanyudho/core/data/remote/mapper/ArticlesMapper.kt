@@ -14,9 +14,4 @@ class ArticlesMapper : BaseMapper<ArticlesResponse, List<Article>> {
         } ?: emptyList()
     }
 
-    override fun mapToRaw(domain: List<Article>): ArticlesResponse {
-        return ArticlesResponse()
-    }
-
-
 }

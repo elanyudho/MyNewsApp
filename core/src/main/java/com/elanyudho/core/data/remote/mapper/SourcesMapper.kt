@@ -13,9 +13,4 @@ class SourcesMapper : BaseMapper<SourcesResponse, List<Source>> {
         } ?: emptyList()
     }
 
-    override fun mapToRaw(domain: List<Source>): SourcesResponse {
-        return SourcesResponse()
-    }
-
-
 }

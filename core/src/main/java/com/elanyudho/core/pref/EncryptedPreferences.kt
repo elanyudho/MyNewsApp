@@ -45,7 +45,7 @@ class EncryptedPreferences
         set(value) = spe.putInt(FILTER, value).apply()
 
     companion object {
-        private const val SECURE_PREF_NAME = "com.elanyudho.newapp"
+        private const val SECURE_PREF_NAME = "com.elanyudho.newsapp"
         private const val SECURE_SP_TOKEN = "pref_token"
         private const val BASE_URL = "base_url"
         private const val FILTER = "filter"

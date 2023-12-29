@@ -14,9 +14,6 @@ abstract class BaseFragmentBinding<T: ViewBinding> : Fragment() {
 
     private var _binding: T? = null
 
-    var isNeedToRefresh = false
-    protected var onRefresh : (() -> Unit)? = null
-
     protected abstract val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> T
 
     protected val binding: T
@@ -55,14 +52,5 @@ abstract class BaseFragmentBinding<T: ViewBinding> : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    protected fun hideKeyboard() {
-        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        val currentFocusView = requireActivity().currentFocus
-        currentFocusView?.let {
-            imm.hideSoftInputFromWindow(it.windowToken, 0)
-            it.clearFocus()
-        }
     }
 }
