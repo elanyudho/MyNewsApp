@@ -2,7 +2,6 @@ package com.elanyudho.core.data.local
 
 import com.elanyudho.core.data.local.room.NewsDao
 import com.elanyudho.core.model.model.Source
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class LocalDataSource @Inject constructor(private val newsDao: NewsDao) {

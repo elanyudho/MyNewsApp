@@ -1,9 +1,7 @@
 package com.elanyudho.core.network
 
-import com.elanyudho.core.pref.EncryptedPreferences
 import okhttp3.Interceptor
 import okhttp3.Response
-import javax.inject.Inject
 
 class NetworkInterceptor() : Interceptor {
 

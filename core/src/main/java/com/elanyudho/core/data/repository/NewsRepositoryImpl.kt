@@ -1,6 +1,5 @@
 package com.elanyudho.core.data.repository
 
-import android.util.Log
 import com.elanyudho.core.data.local.LocalDataSource
 import com.elanyudho.core.data.remote.mapper.ArticlesMapper
 import com.elanyudho.core.data.remote.mapper.SourcesMapper
@@ -28,6 +27,7 @@ class NewsRepositoryImpl @Inject constructor(
                 if (response.body.status == STATUS_OK) {
                     val data = sourcesMapper.mapToDomain(response.body)
                     val offset = (page - 1) * PagingConstant.BATCH_SIZE
+
                     localDataSource.insertSources(data)
                     Either.Success(localDataSource.getSourcesByCategory(category,offset))
                 } else {

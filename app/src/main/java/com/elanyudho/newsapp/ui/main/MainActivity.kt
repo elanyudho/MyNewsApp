@@ -33,14 +33,12 @@ class MainActivity : BaseActivityBinding<ActivityMainBinding>(),
     lateinit var encryptedPreferences: EncryptedPreferences
 
     private val sourceAdapter: SourceAdapter by lazy { SourceAdapter() }
-
     private var paginator: RecyclerViewPaginator? = null
 
-    lateinit var currCategory: String
+    private lateinit var currCategory: String
+    private lateinit var categories : List<String>
 
     private var onTabSelectedListener: TabLayout.OnTabSelectedListener? = null
-
-    private lateinit var categories : List<String>
 
     override val bindingInflater: (LayoutInflater) -> ActivityMainBinding
         get() = { ActivityMainBinding.inflate(layoutInflater) }
@@ -230,7 +228,6 @@ class MainActivity : BaseActivityBinding<ActivityMainBinding>(),
                 dialog.dismiss()
             }
             .setPositiveButton(getString(R.string.apply)) { dialog, _ ->
-                // Apply button clicked
                 encryptedPreferences.filter = filter
                 dialog.dismiss()
             }

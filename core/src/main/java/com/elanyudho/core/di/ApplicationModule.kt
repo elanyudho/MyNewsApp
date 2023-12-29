@@ -3,10 +3,10 @@ package com.elanyudho.core.di
 import android.content.Context
 import com.elanyudho.core.BuildConfig
 import com.elanyudho.core.data.remote.service.ApiService
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.elanyudho.core.network.NetworkInterceptor
 import com.elanyudho.core.pref.EncryptedPreferences
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

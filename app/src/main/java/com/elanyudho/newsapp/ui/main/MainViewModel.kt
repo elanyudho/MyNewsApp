@@ -8,8 +8,6 @@ import com.elanyudho.core.model.usecase.GetSourcesByCategoryUseCase
 import com.elanyudho.core.util.exception.Failure
 import com.elanyudho.core.util.extension.onError
 import com.elanyudho.core.util.extension.onSuccess
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

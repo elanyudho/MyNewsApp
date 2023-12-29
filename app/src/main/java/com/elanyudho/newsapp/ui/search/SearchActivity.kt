@@ -2,7 +2,6 @@ package com.elanyudho.newsapp.ui.search
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -232,7 +231,6 @@ class SearchActivity : BaseActivityBinding<ActivitySearchBinding>(),
                 dialog.dismiss()
             }
             .setPositiveButton(getString(R.string.apply)) { dialog, _ ->
-                // Apply button clicked
                 encryptedPreferences.filter = filter
                 dialog.dismiss()
             }

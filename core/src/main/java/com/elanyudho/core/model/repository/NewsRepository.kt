@@ -4,7 +4,6 @@ import com.elanyudho.core.model.model.Article
 import com.elanyudho.core.model.model.Source
 import com.elanyudho.core.util.exception.Failure
 import com.elanyudho.core.util.vo.Either
-import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
     suspend fun getSourcesByCategory(category: String, page: Int): Either<Failure, List<Source>>

@@ -1,6 +1,5 @@
 package com.elanyudho.newsapp.ui.search
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.elanyudho.core.abstraction.BaseViewModel
 import com.elanyudho.core.dispatcher.DispatcherProvider
@@ -37,8 +36,6 @@ class SearchViewModel @Inject constructor(
         }
         viewModelScope.launch(dispatcherProvider.io) {
             val data = getSourceByNameUseCase.getSourceByName(name, page.toInt())
-            val dataString = data.joinToString(separator = ", ")
-            Log.d("datalistv", dataString)
             withContext(dispatcherProvider.main) {
                 _uiState.value = SearchUiState.SourcesLoaded(data)
             }
